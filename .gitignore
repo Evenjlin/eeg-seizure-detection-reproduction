@@ -1,0 +1,20 @@
+# Data (too large / shouldn't be versioned)
+data/raw/
+data/processed/
+
+# Model artifacts
+outputs/checkpoints/
+outputs/logs/
+*.h5
+*.pt
+*.pkl
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+eeg_env/
+
+# OS
+.DS_Store
+Thumbs.db
