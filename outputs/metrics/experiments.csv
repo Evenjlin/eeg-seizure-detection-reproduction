@@ -1,0 +1,2 @@
+experiment_id,dataset,task,model,preprocessing,split,lr,batch_size,epochs,accuracy,f1,sensitivity,specificity,notes
+A1,Bonn,ABCD_vs_E,CNN-LSTM (PyTorch),zscore+DWT db1 L3,10-fold KFold segment-level seed2,0.0001,60,300,0.9920,0.9783,0.9681,0.9975,Experiment A; L2=0.03 on fc1; no patient IDs available in Bonn
