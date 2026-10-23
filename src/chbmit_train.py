@@ -162,10 +162,15 @@ def train_fold(Xtr, ytr, Xva, yva, Xte, yte, args, device, fold):
             bad += 1
         if epoch == 1 or epoch % 10 == 0:
             print(f"    fold {fold} | epoch {epoch:3d} | train_loss {tot / max(nb, 1):.4f} | val_loss {val_loss:.4f}")
+        if args.test_every and epoch % args.test_every == 0:
+            _, p_diag = evaluate(model, Xte, yte, device)
+            d = metrics(yte, p_diag)
+            print(f"    fold {fold} | epoch {epoch:3d} | [diagnostic] test acc {d['acc']:.4f} "
+                  f"sens {d['sens']:.4f} auc {d['auc']:.4f}")
         if args.patience and bad >= args.patience:
             print(f"    fold {fold} | early stop at epoch {epoch} (best val_loss {best_val:.4f})")
             break
-    if best_state is not None:
+    if best_state is not None and not args.eval_last:
         model.load_state_dict(best_state)
     _, prob = evaluate(model, Xte, yte, device)
     return metrics(yte, prob), epoch
@@ -186,6 +191,12 @@ def main():
     ap.add_argument("--class-weight", action="store_true")
     ap.add_argument("--max-windows", type=int, default=0, help="subsample for a quick smoke test")
     ap.add_argument("--seed", type=int, default=2)
+    ap.add_argument("--eval-last", action="store_true",
+                    help="evaluate the LAST-epoch model (authors' protocol) instead of the best-validation checkpoint")
+    ap.add_argument("--val-frac", type=float, default=0.15, help="paper: 0.15, authors' binary code: 0.2")
+    ap.add_argument("--max-folds", type=int, default=0, help="stop after this many folds (0 = all)")
+    ap.add_argument("--test-every", type=int, default=0,
+                    help="DIAGNOSTIC ONLY: print test metrics every N epochs (never used for selection)")
     args = ap.parse_args()
 
     np.random.seed(args.seed)
@@ -210,7 +221,9 @@ def main():
 
     rows, t0 = [], time.time()
     for fold, (tr, te) in enumerate(splits, 1):
-        tr_fit, tr_val = split_val(tr, args.split, y, groups, args.seed)
+        if args.max_folds and fold > args.max_folds:
+            break
+        tr_fit, tr_val = split_val(tr, args.split, y, groups, args.seed, args.val_frac)
         if args.split != "random":                # hard check: no group on both sides
             assert not (set(groups[tr_fit]) & set(groups[te])), "train/test group overlap!"
             assert not (set(groups[tr_val]) & set(groups[te])), "val/test group overlap!"
@@ -226,16 +239,16 @@ def main():
     df = pd.DataFrame(rows)
     minutes = (time.time() - t0) / 60
     print("\n" + "=" * 60)
-    print(f"SUMMARY  features={args.features}  split={args.split}  folds={len(splits)}  ({minutes:.1f} min)")
+    print(f"SUMMARY  features={args.features}  split={args.split}  folds={len(df)}  ({minutes:.1f} min)")
     for k in ["acc", "sens", "spec", "f1", "mcc", "auc"]:
         print(f"  {k:5s}: {df[k].mean():.4f} +- {df[k].std():.4f}")
 
     os.makedirs(args.out_dir, exist_ok=True)
-    tag = f"{args.features}_{args.split}" + ("_smoke" if args.max_windows else "")
+    tag = f"{args.features}_{args.split}" + ("_last" if args.eval_last else "") + ("_smoke" if args.max_windows else "")
     df.to_csv(os.path.join(args.out_dir, f"chbmit_{tag}.csv"), index=False)
     log = pd.DataFrame([dict(
-        tag=tag, features=args.features, split=args.split, folds=len(splits), epochs=args.epochs,
-        patience=args.patience, l2=args.l2, class_weight=args.class_weight, windows=len(y),
+        tag=tag, features=args.features, split=args.split, folds=len(df), epochs=args.epochs,
+        patience=args.patience, eval_last=args.eval_last, val_frac=args.val_frac, l2=args.l2, class_weight=args.class_weight, windows=len(y),
         acc=df["acc"].mean(), sens=df["sens"].mean(), spec=df["spec"].mean(), auc=df["auc"].mean(),
         f1=df["f1"].mean(), minutes=round(minutes, 1))])
     log_path = os.path.join(args.out_dir, "chbmit_experiments_log.csv")
