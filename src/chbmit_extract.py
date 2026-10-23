@@ -89,10 +89,10 @@ def extract_patient(raw_dir, patient, rng):
             files.append(fname)
             starts.append(idx * STEP // FS)                       # window start, seconds
 
-        x = np.stack(xs).astype(np.float32)
-        return dict(x=x, y=np.array(ys, dtype=np.int8), edf_file=np.array(files),
-                start_s=np.array(starts, dtype=np.int32),
-                patient=np.array([patient] * len(ys))), skipped
+    x = np.stack(xs).astype(np.float32)
+    return dict(x=x, y=np.array(ys, dtype=np.int8), edf_file=np.array(files),
+            start_s=np.array(starts, dtype=np.int32),
+            patient=np.array([patient] * len(ys))), skipped
 
 
 def main():
