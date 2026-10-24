@@ -1,0 +1,9 @@
+experiment_id,model,features,split,protocol,accuracy,sensitivity,specificity,auc,f1,notes
+C1,CNN-LSTM (PyTorch),as_published 72 (54 zeros) no norm,random 10-fold,<=100 ep + early stop 15 + best-val checkpoint,77.88,30.59,94.56,71.72,41.79,same-padding pooling; L2=0.03; paper reports 96.94
+C2,CNN-LSTM (PyTorch),as_published 72 (54 zeros) no norm,random fold 1 of 10,300 ep + last-epoch model + val 0.2 (authors' protocol),74.22,33.13,90.10,67.36,41.75,1 fold only; CPU; test acc stayed 72-75 across epochs
+R1,RandomForest 200 trees,as_published 72,random 10-fold,,79.1,30.3,96.3,75.5,,proxy
+R2,RandomForest 200 trees,band_energy 72,random 10-fold,,89.7,64.7,98.5,94.9,,proxy
+R3,RandomForest 200 trees,as_published 72,recording-wise 10-fold,,78.5,29.0,96.1,75.2,,proxy
+R4,RandomForest 200 trees,band_energy 72,recording-wise 10-fold,,82.4,38.1,98.2,87.9,,proxy
+R5,RandomForest 200 trees,as_published 72,subject-wise 10-fold,,76.6,30.9,94.4,74.7,,proxy; chb21 merged with chb01
+R6,RandomForest 200 trees,band_energy 72,subject-wise 10-fold,,73.5,20.2,93.6,72.2,,proxy; chb21 merged with chb01
