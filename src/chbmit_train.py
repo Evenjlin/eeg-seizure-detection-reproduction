@@ -244,10 +244,10 @@ def main():
         print(f"  {k:5s}: {df[k].mean():.4f} +- {df[k].std():.4f}")
 
     os.makedirs(args.out_dir, exist_ok=True)
-    tag = f"{args.features}_{args.split}" + ("_last" if args.eval_last else "") + ("_smoke" if args.max_windows else "")
+    tag = f"{args.features}_{args.split}" + ("_last" if args.eval_last else "") + ("_smoke" if args.max_windows else "") + f"_seed{args.seed}"
     df.to_csv(os.path.join(args.out_dir, f"chbmit_{tag}.csv"), index=False)
     log = pd.DataFrame([dict(
-        tag=tag, features=args.features, split=args.split, folds=len(df), epochs=args.epochs,
+        tag=tag, seed=args.seed, features=args.features, split=args.split, folds=len(df), epochs=args.epochs,
         patience=args.patience, eval_last=args.eval_last, val_frac=args.val_frac, l2=args.l2, class_weight=args.class_weight, windows=len(y),
         acc=df["acc"].mean(), sens=df["sens"].mean(), spec=df["spec"].mean(), auc=df["auc"].mean(),
         f1=df["f1"].mean(), minutes=round(minutes, 1))])
