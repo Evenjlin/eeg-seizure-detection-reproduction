@@ -14,3 +14,6 @@ C3,CNN-LSTM (PyTorch),proper 18432 (z-score + db1 L3 full window),subject-wise 5
 C4,CNN-LSTM (PyTorch),proper 18432 (z-score + db1 L3 full window),random 5-fold,40 ep + early stop 10 + best-val checkpoint,83.01,58.21,91.79,86.00,64.00,same-padding pooling; L2=0.03; early stop at epochs 17-23; T4 12 min
 C5,CNN-LSTM (PyTorch),proper 18432 (z-score + db1 L3 full window),recording-wise 5-fold,40 ep + early stop 10 + best-val checkpoint,79.42,44.04,91.88,80.82,51.56,same-padding pooling; L2=0.03; early stop at epochs 15-21; T4 11 min
 C6,CNN-LSTM (PyTorch),proper 18432 (z-score + db1 L3 full window),random fold 1 of 10,300 ep + last-epoch model + val 0.2 (authors' protocol),85.31,68.37,91.85,89.16,72.18,1 fold only; diagnostic test AUC 0.875-0.892 across epochs 25-300; train loss about 0.003-0.01; T4 42 min
+C7,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,83.57,60.10,91.96,87.44,65.48,T4 14.5 min
+C8,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,79.64,38.55,94.12,80.29,49.09,T4 11.9 min
+C9,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,72.63,37.88,84.98,71.15,39.99,best val epochs about 6-7 vs epoch 1 in seed 2 (C3 AUC 47.3); validation set = 3-4 patients so selection is noisy
