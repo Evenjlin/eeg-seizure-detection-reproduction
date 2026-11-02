@@ -17,3 +17,6 @@ C6,CNN-LSTM (PyTorch),proper 18432 (z-score + db1 L3 full window),random fold 1 
 C7,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,83.57,60.10,91.96,87.44,65.48,T4 14.5 min
 C8,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,79.64,38.55,94.12,80.29,49.09,T4 11.9 min
 C9,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 3,40 ep + early stop 10 + best-val checkpoint,72.63,37.88,84.98,71.15,39.99,best val epochs about 6-7 vs epoch 1 in seed 2 (C3 AUC 47.3); validation set = 3-4 patients so selection is noisy
+C10,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 2,10 ep fixed + last-epoch model,70.24,40.09,84.31,69.50,36.74,post-hoc fixed epochs; replaces C3 as the stable subject-wise number
+C11,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 3,10 ep fixed + last-epoch model,70.39,44.25,80.62,69.46,41.30,post-hoc fixed epochs
+C12,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 4,10 ep fixed + last-epoch model,72.62,52.64,80.62,73.10,47.30,post-hoc fixed epochs
