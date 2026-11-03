@@ -26,3 +26,4 @@ C15,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 4,10 ep fixed + last-epoc
 C16,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 2,10 ep fixed + last-epoch model,78.88,46.22,90.79,81.29,51.50,matched protocol
 C17,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 3,10 ep fixed + last-epoch model,79.50,44.48,91.73,80.18,52.53,matched protocol
 C18,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 4,10 ep fixed + last-epoch model,79.03,38.01,93.72,80.72,46.36,matched protocol
+C19,CNN-LSTM (PyTorch),proper 18432,patient bootstrap of seed-2 out-of-fold predictions,10 ep fixed + last-epoch model,,,,61.9,,pooled AUC subject-wise 95% CI 0.495-0.757; random 83.4; recording 77.7; paired random-minus-subject +0.215 CI 0.095-0.327

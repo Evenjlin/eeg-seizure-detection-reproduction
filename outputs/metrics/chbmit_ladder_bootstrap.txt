@@ -1,0 +1,34 @@
+Pooled out-of-fold AUC, bootstrap over patients (95% CI):
+  random     0.834  [0.797, 0.865]
+  recording  0.777  [0.734, 0.818]
+  subject    0.619  [0.495, 0.757]
+Paired differences (same resampled patients):
+  random - recording: +0.056  [+0.022, +0.084]
+  recording - subject: +0.159  [+0.050, +0.250]
+  random - subject: +0.215  [+0.095, +0.327]
+
+subject  seizure_windows   auc
+  chb14               57 0.270
+  chb16               38 0.522
+  chb10              124 0.552
+  chb15              535 0.552
+  chb20               89 0.566
+  chb06               55 0.629
+  chb23              116 0.649
+  chb08              239 0.655
+  chb13              156 0.657
+  chb18               89 0.701
+  chb12              298 0.707
+  chb17               77 0.719
+  chb09               77 0.733
+  chb03              113 0.767
+  chb24              153 0.814
+  chb22               58 0.822
+  chb01              179 0.823
+  chb05              148 0.846
+  chb04              103 0.888
+  chb19               65 0.904
+  chb02               48 0.933
+  chb07               86 0.934
+  chb11              207 0.945
+patients with AUC < 0.6: 5 of 23 | median AUC 0.719
