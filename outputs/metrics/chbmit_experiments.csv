@@ -20,3 +20,9 @@ C9,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 3,40 ep + early stop
 C10,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 2,10 ep fixed + last-epoch model,70.24,40.09,84.31,69.50,36.74,post-hoc fixed epochs; replaces C3 as the stable subject-wise number
 C11,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 3,10 ep fixed + last-epoch model,70.39,44.25,80.62,69.46,41.30,post-hoc fixed epochs
 C12,CNN-LSTM (PyTorch),proper 18432,subject-wise 5-fold seed 4,10 ep fixed + last-epoch model,72.62,52.64,80.62,73.10,47.30,post-hoc fixed epochs
+C13,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 2,10 ep fixed + last-epoch model,81.10,58.25,89.16,85.87,59.75,matched protocol
+C14,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 3,10 ep fixed + last-epoch model,82.28,67.48,87.59,86.32,66.58,matched protocol
+C15,CNN-LSTM (PyTorch),proper 18432,random 5-fold seed 4,10 ep fixed + last-epoch model,81.06,50.04,92.18,85.78,56.20,matched protocol
+C16,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 2,10 ep fixed + last-epoch model,78.88,46.22,90.79,81.29,51.50,matched protocol
+C17,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 3,10 ep fixed + last-epoch model,79.50,44.48,91.73,80.18,52.53,matched protocol
+C18,CNN-LSTM (PyTorch),proper 18432,recording-wise 5-fold seed 4,10 ep fixed + last-epoch model,79.03,38.01,93.72,80.72,46.36,matched protocol

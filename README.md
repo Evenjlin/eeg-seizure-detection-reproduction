@@ -20,10 +20,11 @@ identify a genuine research gap.
 - [x] Bonn: loader, z-score, DWT (db1, level 3), PyTorch CNN-LSTM verified against Table 2; ABCD vs E: 99.2% accuracy (10-fold, 300 epochs)
 - [x] CHB-MIT: all 24 patients extracted (11,910 windows, 23 subjects) with patient/recording metadata
 - [x] Finding: the published CHB-MIT features are 18 raw samples plus 54 zeros; the architecture cannot run on that input without same-padding
-- [x] CHB-MIT accuracy (paper 96.94%) not reproduced: 74-78% vs 73.9% majority baseline
-- [x] Evaluation-protocol study (Random Forest proxy): random vs recording-wise vs subject-wise
-- [ ] CNN-LSTM on full-window DWT features under the three splits (GPU)
-- [ ] Multi-seed runs, remaining Bonn cases, figures, write-up
+- [x] CHB-MIT accuracy (paper 96.94%) not reproduced: 74-85% under several variants vs 73.9% majority baseline
+- [x] Evaluation-protocol ladder, CNN-LSTM full-window features, 3 seeds (AUC): random 0.86, recording-wise 0.81, subject-wise 0.71
+- [x] Random Forest proxy ladder and per-patient leave-one-subject-out analysis; exploratory per-patient calibration (+0.11 pooled AUC)
+- [ ] Remaining Bonn cases (multi-class), patient-level uncertainty, write-up
+- [ ] Request exact CHB-MIT code from the authors
 
 ## Project structure
 
