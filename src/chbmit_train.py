@@ -173,7 +173,7 @@ def train_fold(Xtr, ytr, Xva, yva, Xte, yte, args, device, fold):
     if best_state is not None and not args.eval_last:
         model.load_state_dict(best_state)
     _, prob = evaluate(model, Xte, yte, device)
-    return metrics(yte, prob), epoch
+    return metrics(yte, prob), epoch, prob
 
 
 def main():
@@ -197,6 +197,8 @@ def main():
     ap.add_argument("--max-folds", type=int, default=0, help="stop after this many folds (0 = all)")
     ap.add_argument("--test-every", type=int, default=0,
                     help="DIAGNOSTIC ONLY: print test metrics every N epochs (never used for selection)")
+    ap.add_argument("--save-preds", action="store_true",
+                    help="save out-of-fold probabilities with subject/recording labels")
     args = ap.parse_args()
 
     np.random.seed(args.seed)
@@ -219,7 +221,7 @@ def main():
     groups = subject if args.split == "subject" else recording
     splits = make_splits(args.split, len(y), groups, args.folds, args.seed)
 
-    rows, t0 = [], time.time()
+    rows, t0, pred_store = [], time.time(), []
     for fold, (tr, te) in enumerate(splits, 1):
         if args.max_folds and fold > args.max_folds:
             break
@@ -230,7 +232,8 @@ def main():
             assert not (set(groups[tr_fit]) & set(groups[tr_val])), "train/val group overlap!"
         print(f"fold {fold}/{len(splits)}: train {len(tr_fit)} | val {len(tr_val)} | test {len(te)} "
               f"| test subjects {len(set(subject[te]))}")
-        m, ep = train_fold(X[tr_fit], y[tr_fit], X[tr_val], y[tr_val], X[te], y[te], args, device, fold)
+        m, ep, prob = train_fold(X[tr_fit], y[tr_fit], X[tr_val], y[tr_val], X[te], y[te], args, device, fold)
+        pred_store.append((te, prob, np.full(len(te), fold)))
         m.update(fold=fold, epochs_run=ep, n_test=len(te))
         rows.append(m)
         print(f"  fold {fold} TEST: acc {m['acc']:.4f} | sens {m['sens']:.4f} | spec {m['spec']:.4f} "
@@ -246,6 +249,13 @@ def main():
     os.makedirs(args.out_dir, exist_ok=True)
     tag = f"{args.features}_{args.split}" + ("_last" if args.eval_last else "") + ("_smoke" if args.max_windows else "") + f"_seed{args.seed}"
     df.to_csv(os.path.join(args.out_dir, f"chbmit_{tag}.csv"), index=False)
+    if args.save_preds:
+        idx_all = np.concatenate([q[0] for q in pred_store])
+        np.savez_compressed(os.path.join(args.out_dir, f"preds_{tag}.npz"),
+                            idx=idx_all, prob=np.concatenate([q[1] for q in pred_store]),
+                            y=y[idx_all], fold=np.concatenate([q[2] for q in pred_store]),
+                            subject=subject[idx_all], recording=recording[idx_all])
+        print(f"saved: preds_{tag}.npz")
     log = pd.DataFrame([dict(
         tag=tag, seed=args.seed, features=args.features, split=args.split, folds=len(df), epochs=args.epochs,
         patience=args.patience, eval_last=args.eval_last, val_frac=args.val_frac, l2=args.l2, class_weight=args.class_weight, windows=len(y),
