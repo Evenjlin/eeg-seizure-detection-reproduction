@@ -17,7 +17,7 @@ identify a genuine research gap.
 
 ## Status
 
-- [x] Bonn: loader, z-score, DWT (db1, level 3), PyTorch CNN-LSTM verified against Table 2; ABCD vs E: 99.2% accuracy (10-fold, 300 epochs)
+- [x] Bonn: all 12 cases of the paper's Table 3 reproduced (10-fold, 300 epochs): mean accuracy 96.31% vs paper 97.24%; two-class cases 98.15% (paper's binary figure: 98.02%); five-class case 83.2%
 - [x] CHB-MIT: all 24 patients extracted (11,910 windows, 23 subjects) with patient/recording metadata
 - [x] Finding: the published CHB-MIT features are 18 raw samples plus 54 zeros; the architecture cannot run on that input without same-padding
 - [x] CHB-MIT accuracy (paper 96.94%) not reproduced: 74-85% under several variants vs 73.9% majority baseline
